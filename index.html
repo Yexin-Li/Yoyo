@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- 不加这条，iOS 会把「2026-09-19」「16-18 个月」识别成日期/电话，渲染成蓝色可点链接 -->
+<meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
 <title>又又养育助手</title>
 <meta name="description" content="每天 30 秒的养育执行助手">
 <meta name="theme-color" content="#FFF7F0">
@@ -14,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="又又">
 <style>
-  html,body{margin:0;padding:0;background:#FFF7F0;}
+  html,body{margin:0;padding:0;background:#FFF7F0;-webkit-text-size-adjust:100%;}
   body{overscroll-behavior-y:none;}
   #root{min-height:100vh;}
   /* 加载完成前的占位，避免白屏闪一下 */
@@ -54,6 +56,10 @@ Error generating stack: `+o.message+`
 }
 .app *{box-sizing:border-box;}
 .app button{font-family:inherit; cursor:pointer;}
+/* \u72EC\u7ACB\u90E8\u7F72\u65F6\u6CA1\u6709\u5BBF\u4E3B reset\uFF0C\u6309\u94AE\u4F1A\u6389\u8FDB Safari \u7684\u9ED8\u8BA4\u84DD\u3002
+   \u7528 :where() \u628A\u4F18\u5148\u7EA7\u538B\u5230 (0,1,0)\uFF0C\u8BA9\u540E\u9762 .mini / .chev \u7B49\u663E\u5F0F\u914D\u8272\u4ECD\u7136\u751F\u6548\u3002 */
+.app :where(button){color:inherit;}
+.app :where(button,input,textarea,select){-webkit-text-size-adjust:100%;}
 
 .top{
   display:flex; align-items:center; justify-content:space-between;
