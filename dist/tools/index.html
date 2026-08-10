@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>又又 · 蒙氏教具挑选指南</title>
+  <style>
+    :root {
+      --ink: #4A3A42;
+      --soft: #95818A;
+      --softer: #C4B8BD;
+      --paper: #FFF7F0;
+      --card: #FFFFFF;
+      --plum: #8C5A80;
+      --teal: #3E8C87;
+      --sun: #F0AE3C;
+      --wood: #CFA274;
+      --line: #F0E5DA;
+      --rose: #E8B4B8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    .back { display:inline-block; margin-bottom:10px; font-size:13px; color:var(--plum); text-decoration:none; font-family:inherit; }
+
+    header { padding: 16px 0 14px; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+    h1 { font-size: 20px; font-weight: 600; margin-bottom: 2px; }
+    .subtitle { font-size: 12px; color: var(--soft); }
+    .stats { display: flex; gap: 8px; margin-top: 8px; font-size: 11px; flex-wrap: wrap; }
+    .stats span { padding: 3px 8px; background: var(--card); border-radius: 10px; border: 1px solid var(--line); color: var(--soft); }
+    .stats strong { color: var(--plum); font-weight: 600; }
+
+    /* 时机tabs */
+    .timing-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 10px; scrollbar-width: none; }
+    .timing-tabs::-webkit-scrollbar { display: none; }
+    .timing-tab {
+      padding: 8px 12px; border-radius: 16px; background: var(--card);
+      border: 1px solid var(--line); font-size: 12px; color: var(--soft);
+      cursor: pointer; white-space: nowrap; transition: all 0.2s; user-select: none;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .timing-tab.active { color: var(--ink); border-color: var(--plum); background: #FDF0F5; }
+    .timing-tab .icon { font-size: 14px; }
+    .timing-tab .count { font-size: 10px; opacity: 0.6; }
+
+    /* 功能标签筛选 */
+    .tag-filters { display: flex; gap: 4px; flex-wrap: wrap; padding: 4px 0 10px; }
+    .tag-filter {
+      padding: 4px 10px; border-radius: 12px; font-size: 11px;
+      background: transparent; border: 1px solid var(--line); color: var(--soft);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .tag-filter.active { background: var(--teal); color: white; border-color: var(--teal); }
+
+    /* 搜索 */
+    .search { position: relative; margin-bottom: 12px; }
+    .search input {
+      width: 100%; padding: 10px 14px 10px 36px; border: 1px solid var(--line);
+      border-radius: 20px; background: var(--card); font-size: 14px; color: var(--ink); outline: none;
+    }
+    .search input:focus { border-color: var(--plum); }
+    .search::before { content: "🔍"; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 12px; opacity: 0.5; }
+
+    /* 产品网格 */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; padding-bottom: 60px; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+      overflow: hidden; cursor: pointer; display: flex; flex-direction: column;
+      transition: transform 0.12s, box-shadow 0.12s;
+    }
+    .card:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(74,58,66,0.06); }
+    .card-img { width: 100%; aspect-ratio: 1; background: var(--paper); object-fit: contain; padding: 10px; display: block; }
+    .card-body { padding: 8px 10px 10px; flex: 1; display: flex; flex-direction: column; }
+    .card-name-zh { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; margin-bottom: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 36px; }
+    .card-name-en { font-size: 10px; color: var(--softer); line-height: 1.3; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-tag { font-size: 10px; color: var(--teal); margin-bottom: 6px; }
+    .card-actions { display: flex; gap: 4px; margin-top: auto; }
+    .btn { flex: 1; padding: 5px 3px; border: none; border-radius: 5px; font-size: 10px; color: white; cursor: pointer; text-decoration: none; text-align: center; font-weight: 500; }
+    .btn:hover { opacity: 0.85; }
+    .btn-tb { background: #FF6F00; }
+    .btn-jd { background: #E1251B; }
+    .btn-1688 { background: #FF4747; }
+
+    .empty { text-align: center; padding: 40px 20px; color: var(--softer); font-size: 14px; }
+
+    /* 详情弹窗 */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(74,58,66,0.6); z-index: 100; align-items: center; justify-content: center; padding: 12px; }
+    .modal.open { display: flex; }
+    .modal-box { background: var(--card); border-radius: 14px; max-width: 440px; width: 100%; max-height: 90vh; overflow: auto; position: relative; }
+    .modal-close { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border: none; background: rgba(0,0,0,0.4); color: white; border-radius: 50%; font-size: 16px; cursor: pointer; z-index: 1; }
+    .modal-img { width: 100%; aspect-ratio: 1; background: var(--paper); object-fit: contain; padding: 20px; }
+    .modal-body { padding: 14px 16px 16px; }
+    .modal-name-zh { font-size: 16px; font-weight: 600; margin-bottom: 2px; line-height: 1.4; }
+    .modal-name-en { font-size: 12px; color: var(--soft); margin-bottom: 10px; }
+    .modal-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .meta-pill { padding: 3px 8px; border-radius: 10px; font-size: 11px; background: var(--paper); color: var(--soft); }
+    .meta-pill.age { background: #FDF0F5; color: var(--plum); }
+    .meta-pill.tag { background: #E8F5F4; color: var(--teal); }
+    .modal-desc { font-size: 13px; color: var(--ink); line-height: 1.6; margin-bottom: 12px; }
+    .modal-section { margin-bottom: 10px; }
+    .modal-section h3 { font-size: 11px; color: var(--soft); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .kw-list { display: flex; flex-wrap: wrap; gap: 4px; }
+    .kw { padding: 4px 8px; background: var(--paper); border-radius: 10px; font-size: 11px; color: var(--ink); cursor: pointer; transition: all 0.12s; }
+    .kw.active { background: var(--plum); color: white; }
+    .modal-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 14px; }
+    .modal-actions .btn { padding: 8px 4px; font-size: 11px; }
+    .source-link { display: block; margin-top: 10px; font-size: 11px; color: var(--soft); text-decoration: none; text-align: center; }
+
+    .info-note { margin-top: 20px; padding: 12px; background: var(--card); border-radius: 8px; border-left: 3px solid var(--plum); font-size: 12px; color: var(--soft); line-height: 1.7; }
+    .info-note strong { color: var(--ink); }
+
+    @media (max-width: 600px) {
+      .container { padding: 10px; }
+      h1 { font-size: 17px; }
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .card-name-zh { font-size: 12px; min-height: 32px; }
+      .card-name-en { font-size: 9px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../">← 返回养育助手</a>
+    <header>
+      <h1>又又 · 蒙氏教具挑选指南</h1>
+      <div class="subtitle">基于又又 16 个月发育阶段 · 数据源 Nienhuis Montessori 0-3 岁</div>
+      <div class="stats">
+        <span>共 <strong id="totalCount">0</strong> 件教具</span>
+        <span>⭐现在适合 <strong id="nowCount">0</strong></span>
+        <span>🌱准备中 <strong id="prepCount">0</strong></span>
+        <span>🌿半年后 <strong id="soonCount">0</strong></span>
+      </div>
+    </header>
+
+    <div class="timing-tabs" id="timingTabs"></div>
+    <div class="tag-filters" id="tagFilters"></div>
+    <div class="search"><input id="searchInput" type="search" placeholder="搜索教具名称" autocomplete="off"></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" style="display:none;">没有找到匹配的教具</div>
+
+    <div class="info-note">
+      <strong>怎么用这个工具</strong><br>
+      先看「⭐现在适合」——这是又又当前敏感期（物体恒存、投放、套插、开合、套叠）直接对应的教具。<br>
+      点击教具看详情和材质、年龄信息，再点淘宝/京东/1688按钮搜国内同款。Nienhuis 是 AMI 标准品牌，定价偏高，建议在国内找相似款即可。<br><br>
+      <strong>分类逻辑</strong>：不是搬运原网站的 8 个分类，而是根据又又的发育阶段重新归类——现在能用的、接下来 3 个月准备的、半年后的、2 岁后的感官数学。<br><br>
+      <strong>又又当前敏感期</strong>：大动作（走稳→跑→爬高）、秩序敏感期、语言爆发前夜、精细动作（投放·开合·容器进出）、自我意识萌芽。
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <img class="modal-img" id="modalImg" src="" alt="">
+      <div class="modal-body">
+        <div class="modal-name-zh" id="modalNameZh"></div>
+        <div class="modal-name-en" id="modalNameEn"></div>
+        <div class="modal-meta" id="modalMeta"></div>
+        <div class="modal-desc" id="modalDesc"></div>
+        <div class="modal-section">
+          <h3>搜索关键词（点击切换）</h3>
+          <div class="kw-list" id="modalKeywords"></div>
+        </div>
+        <div class="modal-actions">
+          <a class="btn btn-tb" id="btnTb" target="_blank">淘宝</a>
+          <a class="btn btn-jd" id="btnJd" target="_blank">京东</a>
+          <a class="btn btn-1688" id="btn1688" target="_blank">1688</a>
+        </div>
+        <a class="source-link" id="sourceLink" target="_blank">查看 Nienhuis 原页 →</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="data-analyzed.js"></script>
+  <script>
+    const DATA = window.__DATA__;
+    const _m = new URLSearchParams(location.search).get('m');
+    if (_m) document.querySelector('.subtitle').textContent = `基于又又 ${_m} 个月发育阶段 · 数据源 Nienhuis Montessori 0-3 岁`;
+    let activeTiming = 'now';
+    let activeTag = null;
+    let searchQuery = '';
+    let activeKeyword = null;
+
+    // 统计
+    const timingCounts = {};
+    DATA.products.forEach(p => { timingCounts[p.timing] = (timingCounts[p.timing] || 0) + 1; });
+
+    document.getElementById('totalCount').textContent = DATA.totalProducts;
+    document.getElementById('nowCount').textContent = timingCounts.now || 0;
+    document.getElementById('prepCount').textContent = timingCounts.preparing || 0;
+    document.getElementById('soonCount').textContent = timingCounts.soon || 0;
+
+    // 渲染时机tabs
+    const timingOrder = ['now', 'preparing', 'soon', 'later', 'environment', 'supplies', 'past', 'skip'];
+    function renderTimingTabs() {
+      const el = document.getElementById('timingTabs');
+      el.innerHTML = timingOrder
+        .filter(t => timingCounts[t])
+        .map(t => {
+          const info = DATA.timings[t];
+          return `<div class="timing-tab ${t === activeTiming ? 'active' : ''}" data-timing="${t}">
+            <span class="icon">${info.icon}</span>
+            <span>${info.label.split('（')[0]}</span>
+            <span class="count">${timingCounts[t]}</span>
+          </div>`;
+        }).join('');
+      el.querySelectorAll('.timing-tab').forEach(tab => {
+        tab.onclick = () => {
+          activeTiming = tab.dataset.timing;
+          activeTag = null;
+          renderTimingTabs();
+          renderTagFilters();
+          renderGrid();
+        };
+      });
+    }
+
+    // 渲染功能标签筛选
+    function renderTagFilters() {
+      const el = document.getElementById('tagFilters');
+      const products = DATA.products.filter(p => p.timing === activeTiming);
+      const tagCounts = {};
+      products.forEach(p => {
+        if (p.tagName) tagCounts[p.tagName] = (tagCounts[p.tagName] || 0) + 1;
+      });
+      const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+      el.innerHTML = `<div class="tag-filter ${!activeTag ? 'active' : ''}" data-tag="">全部</div>` +
+        tags.map(([tag, count]) =>
+          `<div class="tag-filter ${activeTag === tag ? 'active' : ''}" data-tag="${tag}">${tag} (${count})</div>`
+        ).join('');
+      el.querySelectorAll('.tag-filter').forEach(f => {
+        f.onclick = () => {
+          activeTag = f.dataset.tag || null;
+          renderTagFilters();
+          renderGrid();
+        };
+      });
+    }
+
+    // 过滤
+    function getFiltered() {
+      let products = DATA.products.filter(p => p.timing === activeTiming);
+      if (activeTag) products = products.filter(p => p.tagName === activeTag);
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        products = products.filter(p =>
+          p.name.toLowerCase().includes(q) ||
+          (p.nameZh || '').includes(searchQuery) ||
+          p.sku.toLowerCase().includes(q)
+        );
+      }
+      return products;
+    }
+
+    // 渲染网格
+    function renderGrid() {
+      const products = getFiltered();
+      const gridEl = document.getElementById('grid');
+      const emptyEl = document.getElementById('empty');
+      if (products.length === 0) {
+        gridEl.innerHTML = '';
+        emptyEl.style.display = 'block';
+        return;
+      }
+      emptyEl.style.display = 'none';
+      gridEl.innerHTML = products.map(p => {
+        const kw = encodeURIComponent(p.searchKeywords[0] || p.name);
+        return `<div class="card" data-sku="${p.sku}">
+          <img class="card-img" src="${p.image}" alt="${p.nameZh || p.name}" loading="lazy" onerror="this.style.opacity=0.2">
+          <div class="card-body">
+            <div class="card-name-zh">${p.nameZh || p.name}</div>
+            <div class="card-name-en">${p.name}</div>
+            <div class="card-tag">${p.tagName || ''}</div>
+            <div class="card-actions">
+              <a class="btn btn-tb" href="https://s.taobao.com/search?q=${kw}" target="_blank" onclick="event.stopPropagation()">淘宝</a>
+              <a class="btn btn-jd" href="https://search.jd.com/Search?keyword=${kw}" target="_blank" onclick="event.stopPropagation()">京东</a>
+              <a class="btn btn-1688" href="https://s.1688.com/selloffer/offer_search.htm?keywords=${kw}" target="_blank" onclick="event.stopPropagation()">1688</a>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+      gridEl.querySelectorAll('.card').forEach(card => {
+        card.onclick = () => {
+          const p = DATA.products.find(p => p.sku === card.dataset.sku);
+          if (p) openModal(p);
+        };
+      });
+    }
+
+    // 弹窗
+    function openModal(p) {
+      activeKeyword = p.searchKeywords[0] || p.name;
+      document.getElementById('modalImg').src = p.image;
+      document.getElementById('modalImg').alt = p.nameZh || p.name;
+      document.getElementById('modalNameZh').textContent = p.nameZh || p.name;
+      document.getElementById('modalNameEn').textContent = p.name;
+
+      const metaEl = document.getElementById('modalMeta');
+      let meta = '';
+      if (p.minAge) meta += `<span class="meta-pill age">适合年龄: ${p.minAge}</span>`;
+      if (p.tagName) meta += `<span class="meta-pill tag">${p.tagName}</span>`;
+      if (p.material) {
+        const mat = Array.isArray(p.material) ? p.material.join(', ') : p.material;
+        meta += `<span class="meta-pill">材质: ${mat}</span>`;
+      }
+      if (p.variantCount > 1) meta += `<span class="meta-pill">${p.variantCount}种规格</span>`;
+      metaEl.innerHTML = meta;
+
+      document.getElementById('modalDesc').textContent = p.descZh || p.description || '';
+
+      document.getElementById('modalKeywords').innerHTML = p.searchKeywords.map(k =>
+        `<span class="kw" data-kw="${k.replace(/"/g, '&quot;')}">${k}</span>`
+      ).join('');
+      document.getElementById('modalKeywords').querySelectorAll('.kw').forEach(el => {
+        el.onclick = () => {
+          activeKeyword = el.dataset.kw;
+          document.getElementById('modalKeywords').querySelectorAll('.kw').forEach(e => e.classList.remove('active'));
+          el.classList.add('active');
+          updateActions();
+        };
+      });
+      document.getElementById('modalKeywords').querySelector('.kw')?.classList.add('active');
+
+      document.getElementById('sourceLink').href = p.href;
+      updateActions();
+      document.getElementById('modal').classList.add('open');
+    }
+    function updateActions() {
+      const kw = encodeURIComponent(activeKeyword);
+      document.getElementById('btnTb').href = `https://s.taobao.com/search?q=${kw}`;
+      document.getElementById('btnJd').href = `https://search.jd.com/Search?keyword=${kw}`;
+      document.getElementById('btn1688').href = `https://s.1688.com/selloffer/offer_search.htm?keywords=${kw}`;
+    }
+    function closeModal() { document.getElementById('modal').classList.remove('open'); }
+    document.getElementById('modal').onclick = e => { if (e.target.id === 'modal') closeModal(); };
+
+    // 搜索
+    let timer = null;
+    document.getElementById('searchInput').addEventListener('input', e => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        searchQuery = e.target.value.trim();
+        renderGrid();
+      }, 150);
+    });
+
+    // 初始化
+    renderTimingTabs();
+    renderTagFilters();
+    renderGrid();
+  </script>
+</body>
+</html>
