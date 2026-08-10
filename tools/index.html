@@ -278,7 +278,7 @@
             <div class="card-name-en">${p.name}</div>
             <div class="card-tag">${p.tagName || ''}</div>
             <div class="card-actions">
-              <a class="btn btn-tb" href="https://s.taobao.com/search?q=${kw}" target="_blank" onclick="event.stopPropagation()">淘宝</a>
+              <a class="btn btn-tb" href="https://h5.m.taobao.com/awp/core/search.htm?q=${kw}" target="_blank" onclick="event.stopPropagation()">淘宝</a>
               <a class="btn btn-jd" href="https://search.jd.com/Search?keyword=${kw}" target="_blank" onclick="event.stopPropagation()">京东</a>
               <a class="btn btn-1688" href="https://s.1688.com/selloffer/offer_search.htm?keywords=${kw}" target="_blank" onclick="event.stopPropagation()">1688</a>
             </div>
@@ -333,7 +333,7 @@
     }
     function updateActions() {
       const kw = encodeURIComponent(activeKeyword);
-      document.getElementById('btnTb').href = `https://s.taobao.com/search?q=${kw}`;
+      document.getElementById('btnTb').href = `https://h5.m.taobao.com/awp/core/search.htm?q=${kw}`;
       document.getElementById('btnJd').href = `https://search.jd.com/Search?keyword=${kw}`;
       document.getElementById('btn1688').href = `https://s.1688.com/selloffer/offer_search.htm?keywords=${kw}`;
     }
