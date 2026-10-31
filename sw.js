@@ -1,13 +1,23 @@
-// 自动生成，请勿手改。构建标记：4c56933329
-const CACHE = "youyou-4c56933329";
+// 自动生成，请勿手改。构建标记：456e384e6b
+const CACHE = "youyou-456e384e6b";
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
+  "./icon-16.png",
+  "./icon-16.png?v=7e6131b1d6",
+  "./icon-32.png",
+  "./icon-32.png?v=7e6131b1d6",
   "./icon-192.png",
+  "./icon-192.png?v=7e6131b1d6",
   "./icon-512.png",
+  "./icon-512.png?v=7e6131b1d6",
   "./icon-maskable-512.png",
+  "./icon-maskable-512.png?v=7e6131b1d6",
   "./apple-touch-icon.png",
+  "./apple-touch-icon.png?v=7e6131b1d6",
+  "./favicon.ico",
+  "./favicon.ico?v=7e6131b1d6"
 ];
 
 self.addEventListener("install", (e) => {
