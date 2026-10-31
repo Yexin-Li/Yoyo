@@ -1,5 +1,5 @@
-// 自动生成，请勿手改。构建标记：456e384e6b
-const CACHE = "youyou-456e384e6b";
+// 自动生成，请勿手改。构建标记：76ca0e5280
+const CACHE = "youyou-76ca0e5280";
 const ASSETS = [
   "./",
   "./index.html",
